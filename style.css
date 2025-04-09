@@ -100,7 +100,7 @@ p, li, span {
 
 @keyframes rotateCube {
   from { transform: rotateX(0deg) rotateY(0deg); }
-  to { transform: rotateX(360deg) rotateY(360deg); }
+  to { transform: rotateX(360deg) rotateY(0deg); }
 }
 
 .skills-cube:hover {
