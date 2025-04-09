@@ -366,6 +366,76 @@ p, li, span {
   .contact-card a:hover {
     color: #ffffff;
     text-decoration: underline;
+  }.content-wrapper {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+  }.contact-3d-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 30px;
   }
+  
+  .contact-card-3d {
+    width: 180px;
+    height: 140px;
+    perspective: 1000px;
+  }
+  
+  .contact-card-3d .front,
+  .contact-card-3d .back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid #00e5ff;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    backface-visibility: hidden;
+    transition: transform 0.8s;
+    color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .contact-card-3d .front {
+    transform: rotateY(0deg);
+  }
+  
+  .contact-card-3d .back {
+    transform: rotateY(180deg);
+  }
+  
+  .contact-card-3d:hover .front {
+    transform: rotateY(-180deg);
+  }
+  
+  .contact-card-3d:hover .back {
+    transform: rotateY(0deg);
+  }
+  
+  .contact-card-3d i {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    color: #00e5ff;
+  }
+  
+  .contact-card-3d h4 {
+    margin: 0;
+    font-size: 1rem;
+  }
+  
+  .contact-card-3d a {
+    color: #00e5ff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  
   
 }
