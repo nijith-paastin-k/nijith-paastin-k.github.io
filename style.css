@@ -66,7 +66,7 @@ p, li, span {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  animation: rotateCube 20s infinite linear;
+  animation: rotateCube 40s infinite linear;
 }
 
 .skill-face {
@@ -99,13 +99,14 @@ p, li, span {
 }
 
 @keyframes rotateCube {
-  from { transform: rotateX(0deg) rotateY(0deg); }
-  to { transform: rotateX(360deg) rotateY(0deg); }
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
 }
 
 .skills-cube:hover {
-  animation: rotateCube 5s infinite linear;
+  animation: rotateCube 10s infinite linear;
 }
+
 
 /* Projects Cards */
 .cards {
