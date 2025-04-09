@@ -1,6 +1,4 @@
 body {
-  background: url('https://cdn.pixabay.com/photo/2020/04/14/10/28/space-5049491_1280.jpg') no-repeat center center fixed;
-  background-size: cover;
   margin: 0;
   font-family: 'Roboto', sans-serif;
   color: white;
@@ -18,7 +16,8 @@ canvas#bg {
   padding: 60px 20px;
   max-width: 960px;
   margin: auto;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
   border-radius: 12px;
 }
 
@@ -42,35 +41,73 @@ p, li, span {
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
 }
 
 .about, .skills, .projects, .timeline, .contact {
   margin-top: 50px;
 }
 
-/* Skills with 3D Card Effects */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
+/* 3D Skills Cube */
+.skills-3d-container {
   perspective: 1000px;
+  margin: 40px auto;
+  width: 200px;
+  height: 200px;
 }
 
-.grid span {
-  background: rgba(0, 0, 0, 0.4);
-  padding: 15px 20px;
-  border-radius: 12px;
-  border: 1px solid #00e5ff;
-  color: white;
-  text-align: center;
+.skills-cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.5s;
+  animation: rotateCube 20s infinite linear;
 }
 
-.grid span:hover {
-  transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+.skill-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #00e5ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 20px;
+  box-sizing: border-box;
+  backface-visibility: hidden;
 }
 
+.skill-face:nth-child(1) { transform: rotateY(0deg) translateZ(100px); }
+.skill-face:nth-child(2) { transform: rotateY(90deg) translateZ(100px); }
+.skill-face:nth-child(3) { transform: rotateY(180deg) translateZ(100px); }
+.skill-face:nth-child(4) { transform: rotateY(-90deg) translateZ(100px); }
+.skill-face:nth-child(5) { transform: rotateX(90deg) translateZ(100px); }
+.skill-face:nth-child(6) { transform: rotateX(-90deg) translateZ(100px); }
+
+.skill-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #00e5ff;
+}
+
+@keyframes rotateCube {
+  from { transform: rotateX(0deg) rotateY(0deg); }
+  to { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+.skills-cube:hover {
+  animation: rotateCube 5s infinite linear;
+}
+
+/* Projects Cards */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -82,14 +119,15 @@ p, li, span {
   padding: 20px;
   border-radius: 12px;
   border-left: 4px solid #00e5ff;
-  transition: transform 0.3s ease;
-  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s;
 }
 
 .card:hover {
   transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
 }
 
+/* Work Experience */
 .work-experience-3d {
   display: flex;
   flex-wrap: wrap;
@@ -110,8 +148,45 @@ p, li, span {
   transform-style: preserve-3d;
   backface-visibility: hidden;
   cursor: pointer;
+  position: relative;
 }
 
 .work-card:hover {
   transform: rotateY(180deg);
+}
+
+.work-card h3 {
+  margin-top: 0;
+  color: #00e5ff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 30px 15px;
+  }
+  
+  .skills-3d-container {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .skill-face {
+    font-size: 1rem;
+    padding: 10px;
+  }
+  
+  .skill-icon {
+    font-size: 1.5rem;
+  }
+  
+  .work-experience-3d {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .work-card {
+    width: 100%;
+    max-width: 300px;
+  }
 }
