@@ -158,6 +158,12 @@ p, li, span {
   padding: 20px;
   box-sizing: border-box;
   backface-visibility: hidden;
+}.work-card em {
+  font-style: normal;
+  color: #aaa;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 8px;
 }
 
 .skill-face:nth-child(1) { transform: rotateY(0deg) translateZ(100px); }
