@@ -1,10 +1,10 @@
-
-body, html {
+body {
+  background: url('https://cdn.pixabay.com/photo/2016/11/29/06/15/space-1867310_1280.jpg') no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
   font-family: 'Roboto', sans-serif;
   color: white;
   overflow-x: hidden;
-  background: black;
 }
 
 canvas#bg {
@@ -67,4 +67,31 @@ p, li, span {
 
 .card:hover {
   transform: translateY(-6px);
+}
+
+/* 3D Work Experience Cards */
+.work-experience-3d {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  perspective: 1200px;
+}
+
+.work-card {
+  width: 250px;
+  height: 180px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #00e5ff;
+  border-radius: 15px;
+  padding: 20px;
+  color: #fff;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  cursor: pointer;
+}
+
+.work-card:hover {
+  transform: rotateY(180deg);
 }
