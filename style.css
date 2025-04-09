@@ -1,3 +1,8 @@
+/* Global Styles */
+* {
+  transition: all 0.3s ease;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -5,26 +10,36 @@ body {
   overflow-x: hidden;
   background: url('bg-dev.png') no-repeat center center fixed;
   background-size: cover;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Dark overlay for better readability */
+  z-index: -1;
 }
 
 canvas#bg {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: -2;
 }
 
+/* Main Container */
 .main-content {
   width: 100%;
-  max-width: 100%;
   padding: 60px 40px;
-  margin: 0 auto;
+  margin: 0;
   background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
-  border-radius: 0; /* Optional: remove rounded corners for full width look */
+  border-radius: 0;
   box-sizing: border-box;
 }
 
+/* Headings & Paragraphs */
 h1, h2 {
   color: #00e5ff;
   margin-bottom: 10px;
@@ -36,6 +51,7 @@ p, li, span {
   color: #fff;
 }
 
+/* Button */
 .btn {
   display: inline-block;
   margin-top: 15px;
@@ -45,7 +61,6 @@ p, li, span {
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .btn:hover {
@@ -53,6 +68,7 @@ p, li, span {
   box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
 }
 
+/* Section Spacing */
 .about, .skills, .projects, .timeline, .contact {
   margin-top: 50px;
 }
@@ -109,6 +125,7 @@ p, li, span {
   box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
 }
 
+/* Carousel Arrows */
 .carousel-arrow {
   background: rgba(0, 229, 255, 0.3);
   border: none;
@@ -118,7 +135,6 @@ p, li, span {
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
-  transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,13 +145,13 @@ p, li, span {
   transform: scale(1.1);
 }
 
-/* 3D Skills Cube (Alternative option) */
+/* 3D Skills Cube (optional, hidden) */
 .skills-3d-container {
   perspective: 1000px;
   margin: 40px auto;
   width: 200px;
   height: 200px;
-  display: none; /* Hidden by default, can enable if preferred */
+  display: none;
 }
 
 .skills-cube {
@@ -153,14 +169,55 @@ p, li, span {
   background: rgba(0, 0, 0, 0.7);
   border: 1px solid #00e5ff;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   font-size: 1.2rem;
   padding: 20px;
-  box-sizing: border-box;
   backface-visibility: hidden;
-}.work-card {
+}
+
+.skill-face:nth-child(1) { transform: rotateY(0deg) translateZ(100px); }
+.skill-face:nth-child(2) { transform: rotateY(90deg) translateZ(100px); }
+.skill-face:nth-child(3) { transform: rotateY(180deg) translateZ(100px); }
+.skill-face:nth-child(4) { transform: rotateY(-90deg) translateZ(100px); }
+.skill-face:nth-child(5) { transform: rotateX(90deg) translateZ(100px); }
+.skill-face:nth-child(6) { transform: rotateX(-90deg) translateZ(100px); }
+
+@keyframes rotateCube {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+/* Project Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #00e5ff;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
+}
+
+/* Work Experience */
+.work-experience-3d {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  perspective: 1200px;
+}
+
+.work-card {
   width: 100%;
   max-width: 420px;
   background: rgba(0, 0, 0, 0.65);
@@ -168,9 +225,7 @@ p, li, span {
   border-radius: 12px;
   padding: 20px;
   color: #fff;
-  transition: transform 0.6s ease;
   box-sizing: border-box;
-  overflow: hidden;
 }
 
 .work-card h3 {
@@ -209,235 +264,106 @@ p, li, span {
   margin-bottom: 6px;
 }
 
-.work-experience-3d {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.skill-face:nth-child(1) { transform: rotateY(0deg) translateZ(100px); }
-.skill-face:nth-child(2) { transform: rotateY(90deg) translateZ(100px); }
-.skill-face:nth-child(3) { transform: rotateY(180deg) translateZ(100px); }
-.skill-face:nth-child(4) { transform: rotateY(-90deg) translateZ(100px); }
-.skill-face:nth-child(5) { transform: rotateX(90deg) translateZ(100px); }
-.skill-face:nth-child(6) { transform: rotateX(-90deg) translateZ(100px); }
-
-@keyframes rotateCube {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
-
-.skills-cube:hover {
-  animation: rotateCube 10s infinite linear;
-}
-
-/* Projects Cards */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 20px;
-  border-radius: 12px;
-  border-left: 4px solid #00e5ff;
-  transition: transform 0.3s ease, box-shadow 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
-}
-
-/* Work Experience */
-.work-experience-3d {
+/* Contact 3D Cards */
+.contact-3d-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  perspective: 1200px;
+  gap: 25px;
+  margin-top: 30px;
 }
 
-.work-card {
-  width: 250px;
-  height: 180px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid #00e5ff;
-  border-radius: 15px;
-  padding: 20px;
-  color: #fff;
-  transition: transform 1s;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  cursor: pointer;
+.contact-card-3d {
+  width: 180px;
+  height: 140px;
+  perspective: 1000px;
   position: relative;
 }
 
-.work-card:hover {
+.contact-card-3d .front,
+.contact-card-3d .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid #00e5ff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  backface-visibility: hidden;
+  transition: transform 0.8s;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.contact-card-3d .front {
+  transform: rotateY(0deg);
+}
+
+.contact-card-3d .back {
   transform: rotateY(180deg);
 }
 
-.work-card h3 {
-  margin-top: 0;
+.contact-card-3d:hover .front {
+  transform: rotateY(-180deg);
+}
+
+.contact-card-3d:hover .back {
+  transform: rotateY(0deg);
+}
+
+.contact-card-3d i {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
   color: #00e5ff;
+}
+
+.contact-card-3d h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.contact-card-3d a {
+  color: #00e5ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.contact-card-3d a:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .main-content {
-    padding: 30px 15px;
+    padding: 30px 20px;
   }
-  
+
   .carousel-container {
-    width: 70%;
+    width: 100%;
   }
-  
+
   .skill-card {
-    min-width: 180px;
-    padding: 20px;
+    min-width: 160px;
+    padding: 15px;
   }
-  
+
   .carousel-arrow {
     width: 30px;
     height: 30px;
     font-size: 1.2rem;
   }
-  
-  .skills-3d-container {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .skill-face {
-    font-size: 1rem;
-    padding: 10px;
-  }
-  
-  .work-experience-3d {
-    flex-direction: column;
-    align-items: center;
-  }
-  
+
   .work-card {
     width: 100%;
     max-width: 300px;
-  }.contact-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
   }
-  
-  .contact-3d-container {
-    display: flex;
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
-    justify-content: center; /* Centers the cards horizontally */
-    gap: 25px;
-    margin-top: 30px;
-  }
-  
+
   .contact-card-3d {
-    width: 180px;
-    height: 140px;
-    perspective: 1000px;
-    position: relative; /* Needed for flipping */
-    flex: 0 1 auto; /* Ensure consistent size */
-  } 
-  
-  .contact-card:hover {
-    transform: translateY(-8px) rotateX(2deg);
-    box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
-  }
-  
-  .contact-card i {
-    color: #00e5ff;
-    font-size: 1.4rem;
-    margin-bottom: 5px;
-  }
-  
-  .contact-card a {
-    color: #00e5ff;
-    text-decoration: none;
-    font-weight: 500;
-    word-break: break-word;
-  }
-  
-  .contact-card a:hover {
-    color: #ffffff;
-    text-decoration: underline;
-  }.content-wrapper {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
-  }.contact-3d-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-    margin-top: 30px;
-  }
-  
-  .contact-card-3d {
-    width: 180px;
-    height: 140px;
-    perspective: 1000px;
-  }
-  
-  .contact-card-3d .front,
-  .contact-card-3d .back {
     width: 100%;
-    height: 100%;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.65);
-    border: 1px solid #00e5ff;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    backface-visibility: hidden;
-    transition: transform 0.8s;
-    color: #fff;
-    padding: 10px;
-    box-sizing: border-box;
+    max-width: 280px;
   }
-  
-  .contact-card-3d .front {
-    transform: rotateY(0deg);
-  }
-  
-  .contact-card-3d .back {
-    transform: rotateY(180deg);
-  }
-  
-  .contact-card-3d:hover .front {
-    transform: rotateY(-180deg);
-  }
-  
-  .contact-card-3d:hover .back {
-    transform: rotateY(0deg);
-  }
-  
-  .contact-card-3d i {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
-    color: #00e5ff;
-  }
-  
-  .contact-card-3d h4 {
-    margin: 0;
-    font-size: 1rem;
-  }
-  
-  .contact-card-3d a {
-    color: #00e5ff;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  
-  
 }
