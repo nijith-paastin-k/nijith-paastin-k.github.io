@@ -331,19 +331,21 @@ p, li, span {
     margin-top: 30px;
   }
   
-  .contact-card {
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid #00e5ff;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: left;
-    box-shadow: 0 5px 15px rgba(0, 229, 255, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  .contact-3d-container {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    perspective: 1000px;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    justify-content: center; /* Centers the cards horizontally */
+    gap: 25px;
+    margin-top: 30px;
   }
+  
+  .contact-card-3d {
+    width: 180px;
+    height: 140px;
+    perspective: 1000px;
+    position: relative; /* Needed for flipping */
+    flex: 0 1 auto; /* Ensure consistent size */
+  } 
   
   .contact-card:hover {
     transform: translateY(-8px) rotateX(2deg);
