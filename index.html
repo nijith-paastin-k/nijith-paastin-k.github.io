@@ -161,8 +161,61 @@
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    /* Timeline Styles */
+    .timeline {
+      position: relative;
+      margin-top: 20px;
+      padding-left: 30px;
+      border-left: 3px solid #0288d1;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 30px;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .timeline-dot {
+      width: 16px;
+      height: 16px;
+      background-color: #0288d1;
+      border-radius: 50%;
+      position: absolute;
+      left: -9px;
+      top: 4px;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 4px #e0f7fa;
+    }
+
+    .timeline-content {
+      padding-left: 20px;
+    }
+
+    .timeline-content h3 {
+      font-size: 1.1rem;
+      color: #0d47a1;
+      margin-bottom: 5px;
+    }
+
+    .timeline-content h3 span {
+      font-size: 0.9rem;
+      color: #555;
+      font-weight: normal;
+    }
+
+    .timeline-content p {
+      margin: 0;
+      color: #333;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -199,51 +252,53 @@
 
     <h2><i class="fas fa-briefcase"></i> Projects</h2>
     <div class="projects-container">
-      <div class="project-balloon">
-        <strong>My Fitness Chart</strong><br>
-        <em>MVVM, Kotlin, Room, Coroutines</em><br>
-        Track workouts, diet logs, and performance charts.
-      </div>
-      <div class="project-balloon">
-        <strong>Sandvik Catalogue</strong><br>
-        <em>Kotlin, MVVM, Retrofit, Room</em><br>
-        B2B product browser with powerful search.
-      </div>
-      <div class="project-balloon">
-        <strong>Tamalou</strong><br>
-        <em>WebSocket, Hilt, Kotlin</em><br>
-        Real-time multilingual chat app with caching.
-      </div>
-      <div class="project-balloon">
-        <strong>QB365</strong><br>
-        <em>MVVM, Offline, Kotlin</em><br>
-        Student learning + exam platform.
-      </div>
-      <div class="project-balloon">
-        <strong>Finvesta</strong><br>
-        <em>Java, MVC, Razorpay</em><br>
-        Finance app with secure services integration.
-      </div>
-      <div class="project-balloon">
-        <strong>SmartParking – GCC</strong><br>
-        <em>Kotlin, Maps SDK, MVVM</em><br>
-        Live parking slot app for Chennai Corp.
-      </div>
-      <div class="project-balloon">
-        <strong>LiveOrder</strong><br>
-        <em>MVVM, ViewBinding</em><br>
-        Delivery app for Reliance retail products.
-      </div>
+      <div class="project-balloon"><strong>My Fitness Chart</strong><br><em>MVVM, Kotlin, Room, Coroutines</em><br>Track workouts, diet logs, and performance charts.</div>
+      <div class="project-balloon"><strong>Sandvik Catalogue</strong><br><em>Kotlin, MVVM, Retrofit, Room</em><br>B2B product browser with powerful search.</div>
+      <div class="project-balloon"><strong>Tamalou</strong><br><em>WebSocket, Hilt, Kotlin</em><br>Real-time multilingual chat app with caching.</div>
+      <div class="project-balloon"><strong>QB365</strong><br><em>MVVM, Offline, Kotlin</em><br>Student learning + exam platform.</div>
+      <div class="project-balloon"><strong>Finvesta</strong><br><em>Java, MVC, Razorpay</em><br>Finance app with secure services integration.</div>
+      <div class="project-balloon"><strong>SmartParking – GCC</strong><br><em>Kotlin, Maps SDK, MVVM</em><br>Live parking slot app for Chennai Corp.</div>
+      <div class="project-balloon"><strong>LiveOrder</strong><br><em>MVVM, ViewBinding</em><br>Delivery app for Reliance retail products.</div>
     </div>
 
     <h2><i class="fas fa-user-tie"></i> Work Experience</h2>
-    <ul>
-      <li><strong>Cloudi5 Technologies</strong> (2023 – Present): Lead Android developer, background sync, team mentorship.</li>
-      <li><strong>Datasense Technologies</strong> (2023 – 2024): Secure API integration, OAuth, JWT, Agile sprints.</li>
-      <li><strong>Infinit Solutions</strong> (2022 – 2023): Real-time chat, Google Maps integration.</li>
-      <li><strong>Comgen India Software</strong> (2021 – 2022): Cross-platform apps with SQL and Titanium.</li>
-      <li><strong>Gateway Software Solutions</strong> (2020 – 2021): Stability & performance upgrades in diverse domains.</li>
-    </ul>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Cloudi5 Technologies <span>(2023 – Present)</span></h3>
+          <p>Lead Android developer, background sync, team mentorship.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Datasense Technologies <span>(2023 – 2024)</span></h3>
+          <p>Secure API integration, OAuth, JWT, Agile sprints.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Infinit Solutions <span>(2022 – 2023)</span></h3>
+          <p>Real-time chat, Google Maps integration.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Comgen India Software <span>(2021 – 2022)</span></h3>
+          <p>Cross-platform apps with SQL and Titanium.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Gateway Software Solutions <span>(2020 – 2021)</span></h3>
+          <p>Stability & performance upgrades in diverse domains.</p>
+        </div>
+      </div>
+    </div>
 
     <h2><i class="fas fa-graduation-cap"></i> Education</h2>
     <ul>
