@@ -1,75 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nigith Pastine K - Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nigith Pastine K | Android Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    * {
       margin: 0;
-      padding: 2rem;
-      background: #f7f9fc;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      padding: 30px 20px;
+      min-height: 100vh;
+      overflow-x: hidden;
       color: #333;
-      animation: fadeInBody 1.2s ease-in;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1100px;
       margin: auto;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      animation: slideIn 1s ease;
+      padding: 40px;
+      background-color: #fff;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h1 {
-      color: #e74c3c;
-      animation: fadeIn 1.5s ease;
+      font-size: 2.8rem;
+      color: #e53935;
+      margin-bottom: 10px;
     }
 
-    a.button {
+    h2 {
+      color: #0d47a1;
+      margin: 30px 0 10px;
+      font-size: 1.6rem;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    p,
+    li,
+    a {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .info {
+      margin-bottom: 8px;
+    }
+
+    .btn {
       display: inline-block;
-      margin-top: 1rem;
-      padding: 0.75rem 1.5rem;
-      background: #3498db;
-      color: white;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0288d1;
+      color: #fff;
       text-decoration: none;
-      border-radius: 4px;
-      transition: transform 0.2s ease, background-color 0.3s ease;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
     }
 
-    a.button:hover {
-      transform: scale(1.05);
-      background-color: #2980b9;
+    .btn:hover {
+      background-color: #0277bd;
     }
 
-    @keyframes fadeInBody {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    ul {
+      margin-left: 20px;
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .icon-list li {
+      margin-bottom: 8px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .icon-list i {
+      margin-right: 10px;
+      color: #0288d1;
+    }
+
+    .project {
+      margin-bottom: 20px;
+    }
+
+    .project strong {
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .intro {
+      max-width: 1100px;
+      margin: 0 auto 30px;
+      background-color: #ffffff;
+      border-left: 5px solid #0288d1;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .intro h2 {
+      color: #0d47a1;
+      margin-bottom: 10px;
+    }
+
+    .intro p {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #0288d1;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
+
+  <!-- Intro Summary -->
+  <section class="intro">
+    <h2>👋 Welcome!</h2>
+    <p>Hello! I'm <strong>Nigith Pastine K</strong>, a passionate <strong>Android Developer</strong> with 4+ years of experience crafting high-quality mobile apps.</p>
+    <p>I build secure, scalable, and user-friendly applications using <strong>Kotlin, MVVM, Jetpack</strong> libraries, and modern development practices.</p>
+    <p>This portfolio showcases my skills, projects, experience, education, and certifications. Let's build something amazing together!</p>
+  </section>
+
   <div class="container">
     <h1>Nigith Pastine K</h1>
-    <p><strong>Android Developer</strong></p>
-    <p>I am working as an Android Developer since October 2020. I have experience developing E-Commerce, Banking, and Embedded projects.</p>
-    <p>Email: <a href="mailto:nijithpaastin97@gmail.com">nijithpaastin97@gmail.com</a></p>
-    <p>Phone: +91 6369434160</p>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/nijith-paastin-k-633721241/" target="_blank">LinkedIn Profile</a></p>
-    <p><a class="button" href="Nigith_Pastine_K_Updated_Resume.docx" download>📄 Download Resume</a></p>
+    <p class="info"><i class="fas fa-envelope"></i> <a href="mailto:nijithpaastin97@gmail.com">nijithpaastin97@gmail.com</a></p>
+    <p class="info"><i class="fas fa-phone"></i> +91 6369434160</p>
+    <p class="info"><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/nigith-paastin-k-633721241/" target="_blank">linkedin.com/in/nigith-paastin-k</a></p>
+
+    <h2><i class="fas fa-user"></i> About Me</h2>
+    <p>I am a passionate Android Developer with 4+ years of experience building robust, secure, and high-performance mobile apps. Skilled in Kotlin, Java, MVVM/MVI architecture, Jetpack, secure APIs, and optimizing app performance across multiple domains like e-commerce, health, and civic tech.</p>
+
+    <h2><i class="fas fa-cogs"></i> Skills</h2>
+    <ul class="icon-list">
+      <li><i class="fab fa-android"></i> Java, Kotlin, Jetpack Compose, Android SDK</li>
+      <li><i class="fas fa-code"></i> MVVM, MVI, Clean Architecture</li>
+      <li><i class="fas fa-network-wired"></i> Retrofit, WebSocket, GraphQL</li>
+      <li><i class="fas fa-database"></i> Room, SQLite, DataStore</li>
+      <li><i class="fas fa-lock"></i> OAuth, JWT, Firebase Auth</li>
+      <li><i class="fas fa-vial"></i> JUnit, Espresso, Mockito</li>
+      <li><i class="fas fa-tools"></i> Git, Bitrise, GitHub Actions</li>
+    </ul>
+
+    <h2><i class="fas fa-briefcase"></i> Projects</h2>
+
+    <div class="project">
+      <strong>My Fitness Chart</strong> – Track workouts & diet<br />
+      <em>Technologies:</em> MVVM, Kotlin, Room, Coroutines
+    </div>
+    <div class="project">
+      <strong>Sandvik Catalogue</strong> – Industrial product browser<br />
+      <em>Technologies:</em> Kotlin, MVVM, Retrofit, Room
+    </div>
+    <div class="project">
+      <strong>Tamalou</strong> – Multilingual real-time chat<br />
+      <em>Technologies:</em> WebSocket, Kotlin, Hilt, Coroutines
+    </div>
+    <div class="project">
+      <strong>QB365</strong> – Student exam & study app<br />
+      <em>Technologies:</em> Kotlin, DataBinding, Offline Access
+    </div>
+    <div class="project">
+      <strong>Finvesta</strong> – Financial service hub<br />
+      <em>Technologies:</em> Java, MVC, Razorpay, Retrofit
+    </div>
+    <div class="project">
+      <strong>GCC SmartParking</strong> – Chennai smart parking app<br />
+      <em>Technologies:</em> Kotlin, MVVM, Google Maps SDK
+    </div>
+    <div class="project">
+      <strong>LiveOrder</strong> – Reliance e-commerce delivery<br />
+      <em>Technologies:</em> Kotlin, Retrofit, ViewBinding
+    </div>
+
+    <h2><i class="fas fa-user-tie"></i> Work Experience</h2>
+    <ul>
+      <li><strong>Cloudi5 Technologies</strong> (2023 – Present): Lead Android developer, background sync, team mentorship.</li>
+      <li><strong>Datasense Technologies</strong> (2023 – 2024): Secure API integration, OAuth, JWT, Agile sprints.</li>
+      <li><strong>Infinit Solutions</strong> (2022 – 2023): Real-time chat, Google Maps integration.</li>
+      <li><strong>Comgen India Software</strong> (2021 – 2022): Cross-platform apps with SQL and Titanium.</li>
+      <li><strong>Gateway Software Solutions</strong> (2020 – 2021): Stability & performance upgrades in diverse domains.</li>
+    </ul>
+
+    <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+    <ul>
+      <li><strong>B.E. in CSE</strong> – Tamilnadu College of Engineering, Coimbatore (2015–2019)</li>
+      <li><strong>HSC</strong> – V.K. Govt HSS, Tirupur (2014–2015)</li>
+      <li><strong>SSLC</strong> – Bishop Ubagaraswamy HSS, Tirupur (2012–2013)</li>
+    </ul>
+
+    <h2><i class="fas fa-certificate"></i> Certifications</h2>
+    <ul>
+      <li>Android Mobile Application Development – Angler Academy</li>
+      <li>Advanced Android – Clean Architecture & Dependency Injection</li>
+    </ul>
+
+    <a class="btn" href="Nigith_Pastine_K_Updated_Resume.docx" download><i class="fas fa-download"></i> Download Resume</a>
   </div>
 </body>
+
 </html>
