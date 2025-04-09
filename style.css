@@ -3,6 +3,8 @@ body {
   font-family: 'Roboto', sans-serif;
   color: white;
   overflow-x: hidden;
+  background: url('bg-dev.png') no-repeat center center fixed;
+  background-size: cover;
 }
 
 canvas#bg {
