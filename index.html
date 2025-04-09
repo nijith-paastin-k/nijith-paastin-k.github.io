@@ -1,174 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nigith Pastine K | Android Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Developer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <style>
     body {
+      background: url('https://images.unsplash.com/photo-1607083206173-0b53f69f5d5e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
       margin: 0;
       font-family: 'Roboto', sans-serif;
-      background: #f5f7fa;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    canvas#bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
     }
 
     .main-content {
-      max-width: 1000px;
+      padding: 60px 20px;
+      max-width: 960px;
       margin: auto;
-      padding: 50px 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 12px;
     }
 
     h1, h2 {
-      color: #0d47a1;
+      color: #00e5ff;
+      margin-bottom: 10px;
+    }
+
+    p, li, span {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #fff;
     }
 
     .btn {
       display: inline-block;
+      margin-top: 15px;
+      background: #00e5ff;
       padding: 10px 20px;
-      background-color: #0288d1;
-      color: white;
-      border-radius: 5px;
+      color: #000;
+      border-radius: 8px;
       text-decoration: none;
-      margin-top: 10px;
-    }
-
-    .intro {
-      text-align: center;
-      margin-bottom: 50px;
+      font-weight: bold;
     }
 
     .about, .skills, .projects, .timeline, .contact {
-      margin-bottom: 50px;
+      margin-top: 50px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
     }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      padding: 20px;
-      background: white;
+    .skill-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #00e5ff;
       border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      color: #fff;
+      text-align: center;
+      font-weight: bold;
+      transition: transform 0.4s, box-shadow 0.4s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      perspective: 800px;
     }
 
-    .timeline ul {
-      list-style: none;
-      padding-left: 20px;
-    }
-
-    .timeline ul li {
-      margin-bottom: 10px;
+    .skill-card:hover {
+      transform: rotateY(15deg) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 229, 255, 0.3);
     }
 
     .work-experience-3d {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
+      perspective: 1200px;
     }
 
     .work-card {
-      flex: 1 1 250px;
-      background: #fff;
-      border-radius: 10px;
+      width: 250px;
+      height: 180px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid #00e5ff;
+      border-radius: 15px;
       padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      color: #fff;
+      transition: transform 1s;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      cursor: pointer;
+    }
+
+    .work-card:hover {
+      transform: rotateY(180deg);
     }
   </style>
 </head>
-
 <body>
+
   <canvas id="bg"></canvas>
 
   <div class="main-content">
-    <section class="intro">
-      <h1>Nigith Pastine K</h1>
-      <p>👋 Hi, I’m an <strong>Android Developer</strong> with 4+ years of experience creating apps with <strong>Kotlin</strong>, <strong>Jetpack</strong>, and modern Android architecture.</p>
-      <a href="#projects" class="btn">View My Work</a>
-    </section>
-
-    <section class="about">
-      <h2><i class="fas fa-user"></i> About Me</h2>
-      <p>I build fast, secure mobile applications across domains like health, e-commerce, and civic tech. Passionate about clean code and user-centric development.</p>
-    </section>
-
-    <section class="skills">
-      <h2><i class="fas fa-cogs"></i> Skills</h2>
-      <div class="grid">
-        <span><i class="fab fa-android"></i> Kotlin / Jetpack</span>
-        <span><i class="fas fa-code"></i> MVVM / MVI</span>
-        <span><i class="fas fa-network-wired"></i> Retrofit / GraphQL</span>
-        <span><i class="fas fa-database"></i> Room / SQLite</span>
-        <span><i class="fas fa-lock"></i> OAuth / JWT</span>
-        <span><i class="fas fa-vial"></i> JUnit / Espresso</span>
-      </div>
-    </section>
-
-    <section class="projects" id="projects">
-      <h2><i class="fas fa-briefcase"></i> Projects</h2>
-      <div class="cards">
-        <div class="card">📱 <strong>My Fitness Chart</strong><br> Track workouts & diet logs (Kotlin + MVVM)</div>
-        <div class="card">📘 <strong>Sandvik Catalogue</strong><br> B2B product browser (Retrofit + Room)</div>
-        <div class="card">💬 <strong>Tamalou</strong><br> Real-time multilingual chat app</div>
-        <div class="card">📚 <strong>QB365</strong><br> Student exam app (Offline + MVVM)</div>
-        <div class="card">💳 <strong>Finvesta</strong><br> Secure finance app (Java + Razorpay)</div>
-        <div class="card">🅿️ <strong>SmartParking – GCC</strong><br> Chennai Corp live slot parking app</div>
-        <div class="card">🚚 <strong>LiveOrder</strong><br> Reliance delivery tracking app</div>
-      </div>
-    </section>
-
-    <section class="timeline">
-      <h2><i class="fas fa-user-tie"></i> Work Experience</h2>
-      <div class="work-experience-3d">
-        <div class="work-card">
-          <h3>Cloudi5 Technologies</h3>
-          <p>Lead Android developer</p>
-          <p>(2023 – Present)</p>
-        </div>
-        <div class="work-card">
-          <h3>Datasense Technologies</h3>
-          <p>Secure API integration, OAuth, JWT</p>
-          <p>(2023 – 2024)</p>
-        </div>
-        <div class="work-card">
-          <h3>Infinit Solutions</h3>
-          <p>Real-time messaging with maps, coroutines</p>
-          <p>(2022 – 2023)</p>
-        </div>
-        <div class="work-card">
-          <h3>Comgen India Software</h3>
-          <p>Cross-platform solutions using Titanium SDK</p>
-          <p>(2021 – 2022)</p>
-        </div>
-        <div class="work-card">
-          <h3>Gateway Software Solutions</h3>
-          <p>Performance enhancement and optimization</p>
-          <p>(2020 – 2021)</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact">
-      <h2><i class="fas fa-envelope"></i> Contact</h2>
-      <p>Email: <a href="mailto:nijithpaastin97@gmail.com">nijithpaastin97@gmail.com</a></p>
-      <p>Phone: +91 6369434160</p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/nigith-paastin-k-633721241/">Profile</a></p>
-      <a class="btn" href="Nigith_Pastine_K_Updated_Resume.docx" download>📄 Download Resume</a>
+    <section class="skills grid">
+      <div class="skill-card">Kotlin / Jetpack</div>
+      <div class="skill-card">MVVM / MVI</div>
+      <div class="skill-card">Retrofit / GraphQL</div>
+      <div class="skill-card">Room / SQLite</div>
+      <div class="skill-card">OAuth / JWT</div>
+      <div class="skill-card">JUnit / Espresso</div>
     </section>
   </div>
 
-  <script src="script.js"></script>
-</body>
+  <!-- 2D Stars Background Script -->
+  <script>
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
 
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createStars() {
+      stars = [];
+      for (let i = 0; i < 100; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.5,
+          d: Math.random() * 1
+        });
+      }
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2, true);
+        ctx.fill();
+      });
+      moveStars();
+    }
+
+    function moveStars() {
+      stars.forEach(star => {
+        star.y += star.d;
+        if (star.y > canvas.height) {
+          star.y = 0;
+          star.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    function animate2D() {
+      drawStars();
+      requestAnimationFrame(animate2D);
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createStars();
+    });
+
+    resizeCanvas();
+    createStars();
+    animate2D();
+  </script>
+
+  <!-- THREE.js 3D Stars -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.position.z = 30;
+
+    function addStar() {
+      const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+      const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+      const star = new THREE.Mesh(geometry, material);
+      const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+      star.position.set(x, y, z);
+      scene.add(star);
+    }
+
+    Array(400).fill().forEach(addStar);
+
+    const pointLight = new THREE.PointLight(0xffffff);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      renderer.render(scene, camera);
+    }
+    animate3D();
+  </script>
+
+</body>
 </html>
