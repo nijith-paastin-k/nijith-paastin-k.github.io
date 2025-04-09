@@ -274,8 +274,8 @@ p, li, span {
 }
 
 .contact-card-3d {
-  width: 180px;
-  height: 140px;
+  width: 200px; /* increased from 180px for better spacing */
+  height: 150px;
   perspective: 1000px;
   position: relative;
 }
@@ -294,8 +294,10 @@ p, li, span {
   flex-direction: column;
   backface-visibility: hidden;
   transition: transform 0.8s;
-  padding: 10px;
+  padding: 15px;
   box-sizing: border-box;
+  text-align: center;
+  word-break: break-word;
 }
 
 .contact-card-3d .front {
@@ -321,14 +323,19 @@ p, li, span {
 }
 
 .contact-card-3d h4 {
-  margin: 0;
+  margin: 0 0 5px 0;
   font-size: 1rem;
+  color: #00e5ff;
 }
 
 .contact-card-3d a {
   color: #00e5ff;
   text-decoration: none;
   font-weight: bold;
+  font-size: 0.9rem;
+  display: block;
+  width: 100%;
+  word-break: break-word;
 }
 
 .contact-card-3d a:hover {
