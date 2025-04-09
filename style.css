@@ -1,5 +1,5 @@
 body {
-  background: url('https://images.unsplash.com/photo-1607083206173-0b53f69f5d5e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+  background: url('https://cdn.pixabay.com/photo/2020/04/14/10/28/space-5049491_1280.jpg') no-repeat center center fixed;
   background-size: cover;
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -48,10 +48,27 @@ p, li, span {
   margin-top: 50px;
 }
 
+/* Skills with 3D Card Effects */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 10px;
+  gap: 20px;
+  perspective: 1000px;
+}
+
+.grid span {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid #00e5ff;
+  color: white;
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.grid span:hover {
+  transform: rotateY(10deg) rotateX(10deg) scale(1.05);
 }
 
 .cards {
