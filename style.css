@@ -158,12 +158,60 @@ p, li, span {
   padding: 20px;
   box-sizing: border-box;
   backface-visibility: hidden;
-}.work-card em {
-  font-style: normal;
-  color: #aaa;
+}.work-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid #00e5ff;
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  transition: transform 0.6s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.work-card h3 {
+  margin: 0;
+  color: #00e5ff;
+  font-size: 1.2rem;
+}
+
+.work-card .role {
+  margin: 6px 0 0;
+  font-weight: 500;
+  color: #ccc;
+}
+
+.work-card .location {
+  font-style: italic;
   font-size: 0.9rem;
-  display: block;
-  margin-bottom: 8px;
+  color: #aaa;
+}
+
+.work-card .duration {
+  margin: 4px 0 10px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.work-card ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 10px 0 0;
+}
+
+.work-card ul li {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.work-experience-3d {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
 .skill-face:nth-child(1) { transform: rotateY(0deg) translateZ(100px); }
