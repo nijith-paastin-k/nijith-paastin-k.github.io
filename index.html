@@ -321,5 +321,23 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="script.js"></script>
+
+  <script>
+    const leftArrow = document.querySelector(".left-arrow");
+    const rightArrow = document.querySelector(".right-arrow");
+    const track = document.querySelector(".carousel-track");
+  
+    let scrollAmount = 0;
+    const scrollStep = 300;
+  
+    leftArrow.addEventListener("click", () => {
+      track.scrollBy({ left: -scrollStep, behavior: "smooth" });
+    });
+  
+    rightArrow.addEventListener("click", () => {
+      track.scrollBy({ left: scrollStep, behavior: "smooth" });
+    });
+  </script>
+  
 </body>
 </html>
