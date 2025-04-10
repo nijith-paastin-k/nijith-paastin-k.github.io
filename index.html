@@ -323,47 +323,44 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
     const scene = new THREE.Scene();
-  
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 1;
-  
     const renderer = new THREE.WebGLRenderer({
       canvas: document.getElementById('bg'),
       alpha: true,
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-  
-    // Load image as background
-    const loader = new THREE.TextureLoader();
-    loader.load('/mnt/data/image.png', function(texture) {
-      const backgroundMesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(2, 2, 0),
-        new THREE.MeshBasicMaterial({ map: texture })
-      );
-  
-      const backgroundScene = new THREE.Scene();
-      const backgroundCamera = new THREE.Camera();
-      backgroundScene.add(backgroundCamera);
-      backgroundScene.add(backgroundMesh);
-  
-      function animate() {
-        requestAnimationFrame(animate);
-  
-        renderer.autoClear = false;
-        renderer.clear();
-        renderer.render(backgroundScene, backgroundCamera);
-        renderer.render(scene, camera); // optional: add UI/objects here
-      }
-  
-      animate();
-    });
-  
+
+    camera.position.z = 5;
+
+    function addStar() {
+      const geometry = new THREE.SphereGeometry(0.15, 24, 24);
+      const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+      const star = new THREE.Mesh(geometry, material);
+
+      const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+      star.position.set(x, y, z);
+      scene.add(star);
+    }
+
+    Array(200).fill().forEach(addStar);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff);
+    scene.add(ambientLight);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      scene.rotation.y += 0.0005;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
-  </script>  
+  </script>
 </body>
 </html>
