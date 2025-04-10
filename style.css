@@ -102,6 +102,8 @@ p, li, span {
   text-align: center;
   transition: transform 0.3s;
   flex: 1;
+  padding: 60px 20px;
+  margin: 0 auto;
 }
 
 .skill-card i {
@@ -201,6 +203,8 @@ p, li, span {
   padding: 20px;
   border-radius: 12px;
   border-left: 4px solid #00e5ff;
+  padding: 60px 20px;
+  margin: 0 auto;
 }
 
 .card:hover {
@@ -215,6 +219,8 @@ p, li, span {
   justify-content: center;
   gap: 20px;
   perspective: 1200px;
+  padding: 60px 20px;
+  margin: 0 auto;
 }
 
 .work-card {
@@ -226,6 +232,8 @@ p, li, span {
   padding: 20px;
   color: #fff;
   box-sizing: border-box;
+  padding: 60px 20px;
+  margin: 0 auto;
 }
 
 .work-card h3 {
@@ -271,6 +279,8 @@ p, li, span {
   justify-content: center;
   gap: 25px;
   margin-top: 30px;
+  padding: 60px 20px;
+  margin: 0 auto;
 }
 
 .contact-card-3d {
