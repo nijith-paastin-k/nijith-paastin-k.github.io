@@ -3,274 +3,1491 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nigith Pastine K | Android Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="style.css" />
+  <title>Nijith Paastin K — Senior Android Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #07070F;
+      --bg2:      #0D0D1A;
+      --bg3:      #111125;
+      --surface:  #14142A;
+      --cyan:     #00E5FF;
+      --green:    #69FF47;
+      --purple:   #BF5FFF;
+      --pink:     #FF5FA0;
+      --text:     #D8D8F0;
+      --muted:    #6B6B9A;
+      --border:   rgba(0,229,255,0.12);
+      --font-mono: 'Space Mono', monospace;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor {
+      width: 12px; height: 12px;
+      background: var(--cyan);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform 0.08s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--cyan);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform 0.18s ease, width 0.2s, height 0.2s, border-color 0.2s;
+      opacity: 0.5;
+    }
+    body:hover #cursor { opacity: 1; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
+
+    /* ── CANVAS BACKGROUND ── */
+    #bg-canvas {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      backdrop-filter: blur(20px);
+      background: rgba(7,7,15,0.7);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s;
+    }
+    nav.scrolled { padding: 0.8rem 4rem; }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--green); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--cyan);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--bg);
+      background: var(--cyan);
+      padding: 0.5rem 1.2rem;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s, box-shadow 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .nav-cta:hover { background: var(--green); box-shadow: 0 0 24px rgba(105,255,71,0.4); }
+
+    /* ── SECTIONS BASE ── */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+    .section-label.visible { opacity: 1; transform: none; }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s 0.1s, transform 0.7s 0.1s;
+    }
+    .section-title.visible { opacity: 1; transform: none; }
+    .section-title em { font-style: normal; color: var(--cyan); }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-left {
+      opacity: 0; transform: translateX(-40px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .reveal-left.visible { opacity: 1; transform: none; }
+    .reveal-right {
+      opacity: 0; transform: translateX(40px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .reveal-right.visible { opacity: 1; transform: none; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 0 4rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block; width: 32px; height: 1px;
+      background: var(--green);
+    }
+    h1 {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    h1 .name-accent { color: var(--cyan); }
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      min-height: 1.6em;
+    }
+    #typed-text { color: var(--cyan); }
+    #typed-cursor {
+      display: inline-block;
+      width: 2px; height: 1em;
+      background: var(--cyan);
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn-primary {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--cyan);
+      border: none; padding: 0.85rem 2rem;
+      text-decoration: none;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: background 0.2s, box-shadow 0.3s, transform 0.2s;
+      cursor: none;
+    }
+    .btn-primary:hover {
+      background: var(--green);
+      box-shadow: 0 0 40px rgba(105,255,71,0.3);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: transparent;
+      border: 1px solid var(--cyan);
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, box-shadow 0.3s, transform 0.2s;
+      cursor: none;
+    }
+    .btn-outline:hover {
+      background: rgba(0,229,255,0.08);
+      box-shadow: 0 0 32px rgba(0,229,255,0.15);
+      transform: translateY(-2px);
+    }
+    .hero-stats {
+      display: flex; gap: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--cyan);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+    /* Hero right - code card */
+    .code-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,229,255,0.05);
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+    .code-card-header {
+      background: var(--bg3);
+      padding: 0.75rem 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red { background: #FF5F57; }
+    .dot.yellow { background: #FEBC2E; }
+    .dot.green { background: #28C840; }
+    .code-card-file {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+    .code-body {
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 2;
+      user-select: none;
+    }
+    .ln { color: var(--muted); margin-right: 1.2rem; font-size: 0.7rem; }
+    .kw { color: var(--purple); }
+    .cls { color: var(--cyan); }
+    .fn { color: var(--green); }
+    .str { color: #FF9E64; }
+    .cm { color: var(--muted); font-style: italic; }
+    .param { color: #F4B942; }
+    .indent-1 { padding-left: 1.2rem; }
+    .indent-2 { padding-left: 2.4rem; }
+    .indent-3 { padding-left: 3.6rem; }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 7rem 0;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: center; }
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+    .about-text p strong { color: var(--text); }
+    .highlight-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.75rem;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      border-radius: 2px;
+      margin: 0.25rem 0.25rem 0.25rem 0;
+      letter-spacing: 0.05em;
+    }
+    .about-right {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .about-card:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 24px rgba(0,229,255,0.1);
+      transform: translateX(6px);
+    }
+    .about-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+    }
+    .about-card h4 {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    .about-card p { font-size: 0.88rem; color: var(--muted); margin: 0; line-height: 1.6; }
+
+    /* ── SKILLS ── */
+    #skills {
+      padding: 7rem 0;
+      background: var(--bg2);
+    }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .skill-cat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .skill-cat:hover {
+      border-color: rgba(0,229,255,0.3);
+      box-shadow: 0 4px 40px rgba(0,229,255,0.07);
+    }
+    .skill-cat-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .skill-cat-title::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: var(--border);
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 3px;
+      border: 1px solid;
+      letter-spacing: 0.04em;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .skill-tag:hover { transform: translateY(-2px); }
+    .skill-tag.c { color: var(--cyan); border-color: rgba(0,229,255,0.25); background: rgba(0,229,255,0.05); }
+    .skill-tag.c:hover { box-shadow: 0 4px 16px rgba(0,229,255,0.2); }
+    .skill-tag.g { color: var(--green); border-color: rgba(105,255,71,0.25); background: rgba(105,255,71,0.05); }
+    .skill-tag.g:hover { box-shadow: 0 4px 16px rgba(105,255,71,0.2); }
+    .skill-tag.p { color: var(--purple); border-color: rgba(191,95,255,0.25); background: rgba(191,95,255,0.05); }
+    .skill-tag.p:hover { box-shadow: 0 4px 16px rgba(191,95,255,0.2); }
+    .skill-tag.o { color: #FF9E64; border-color: rgba(255,158,100,0.25); background: rgba(255,158,100,0.05); }
+    .skill-tag.o:hover { box-shadow: 0 4px 16px rgba(255,158,100,0.2); }
+
+    /* ── EXPERIENCE ── */
+    #experience {
+      padding: 7rem 0;
+      background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+    }
+    .timeline { position: relative; margin-top: 3.5rem; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--cyan), var(--purple), var(--green));
+    }
+    .timeline-item {
+      position: relative;
+      padding: 0 0 3.5rem 3rem;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: -7px; top: 6px;
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--cyan);
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .timeline-item:hover .timeline-dot {
+      background: var(--cyan);
+      transform: scale(1.3);
+      box-shadow: 0 0 16px var(--cyan);
+    }
+    .timeline-meta {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+    .timeline-meta span { color: var(--green); }
+    .timeline-role {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+    .timeline-company {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+    }
+    .timeline-points { list-style: none; }
+    .timeline-points li {
+      font-size: 0.92rem;
+      color: var(--muted);
+      padding: 0.3rem 0 0.3rem 1.4rem;
+      position: relative;
+      line-height: 1.7;
+    }
+    .timeline-points li::before {
+      content: '›';
+      position: absolute; left: 0;
+      color: var(--cyan);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* ── PROJECTS ── */
+    #projects {
+      padding: 7rem 0;
+      background: var(--bg);
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+    .project-card:hover {
+      border-color: rgba(0,229,255,0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,229,255,0.08);
+    }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-num {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+    .project-name {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.7;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .stack-tag {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      padding: 0.2rem 0.55rem;
+      background: rgba(0,229,255,0.06);
+      border: 1px solid rgba(0,229,255,0.15);
+      color: var(--cyan);
+      border-radius: 2px;
+    }
+    .project-links { display: flex; gap: 1rem; }
+    .proj-link {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .proj-link:hover { color: var(--cyan); }
+    .proj-link svg { width: 12px; height: 12px; }
+    .badge-live {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      background: rgba(105,255,71,0.12);
+      border: 1px solid rgba(105,255,71,0.3);
+      color: var(--green);
+      border-radius: 2px;
+    }
+
+    /* ── CERTIFICATIONS & RECOGNITION ── */
+    #certifications {
+      padding: 7rem 0;
+      background: var(--bg2);
+    }
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .cert-card:hover {
+      border-color: rgba(191,95,255,0.4);
+      box-shadow: 0 4px 32px rgba(191,95,255,0.08);
+    }
+    .cert-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(191,95,255,0.1);
+      border: 1px solid rgba(191,95,255,0.25);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .cert-info h4 {
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+    .cert-info p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .recognition-banner {
+      margin-top: 2.5rem;
+      background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(191,95,255,0.06));
+      border: 1px solid rgba(0,229,255,0.2);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center;
+    }
+    .recog-badge {
+      width: 72px; height: 72px;
+      background: rgba(0,229,255,0.08);
+      border: 2px solid var(--cyan);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .recog-text h3 {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    .recog-text p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+    .recog-text strong { color: var(--cyan); }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 7rem 0 6rem;
+      background: var(--bg);
+      text-align: center;
+    }
+    .contact-wrap { max-width: 640px; margin: 0 auto; }
+    .contact-wrap .section-label,
+    .contact-wrap .section-title { text-align: center; }
+    .contact-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      margin: 1.5rem 0 3rem;
+      line-height: 1.8;
+    }
+    .contact-links {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.8rem 1.4rem;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: border-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+    .contact-link:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 24px rgba(0,229,255,0.1);
+      transform: translateY(-3px);
+    }
+    .contact-link svg { width: 16px; height: 16px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+      position: relative; z-index: 1;
+    }
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    footer span { color: var(--cyan); }
+
+    /* ── MOBILE NAV ── */
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: none; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--cyan); border-radius: 1px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      nav.scrolled { padding: 0.7rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .code-card { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .timeline::before { left: 0; }
+      .recognition-banner { grid-template-columns: 1fr; text-align: center; }
+      .recog-badge { margin: 0 auto; }
+    }
+    @media (max-width: 600px) {
+      .hero-stats { gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      body { cursor: auto; }
+      #cursor, #cursor-ring { display: none; }
+    }
+  </style>
 </head>
 <body>
-  <canvas id="bg"></canvas>
 
-  <div class="main-content">
-    <!-- Intro Section (keep it short and punchy) -->
-<section class="intro">
-  <h1>Nigith Pastine K</h1>
-  <p>👋 Hi, I'm an <strong>Android Developer</strong> with 4+ years of experience creating apps with <strong>Kotlin</strong>, <strong>Jetpack</strong>, and modern Android architecture.</p>
-  <a href="#about" class="btn">View My Work</a>
-</section>
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
 
-<!-- About Me Section (more detailed, technical, and SEO-rich) -->
-<section id="about" class="about-section">
-  <div class="container">
-    <h2>👨‍💻 About Me</h2>
-    <p>
-      I'm <strong>Nigith Pastine K</strong>, an <strong>Android Developer</strong> with <strong>4+ years of experience</strong> crafting scalable, high-performance mobile applications using modern Android technologies.
-    </p>
-    <p>
-      I specialize in building apps with <strong>Java</strong> and <strong>Kotlin</strong>, leveraging <strong>Jetpack libraries</strong> like <strong>Compose</strong>, <strong>Room</strong>, <strong>Navigation</strong>, and <strong>WorkManager</strong>. My architectural expertise includes <strong>MVVM</strong>, <strong>MVI</strong>, and <strong>Clean Architecture</strong>, ensuring clean, testable, and maintainable code.
-    </p>
-    <p>
-      I work with a variety of <strong>databases</strong> such as <strong>Room</strong>, <strong>SQLite</strong>, and <strong>Realm</strong>, and implement <strong>dependency injection</strong> using <strong>Dagger 2</strong>, <strong>Hilt</strong>, and <strong>Koin</strong>.
-    </p>
-    <p>
-      I’m proficient in API integration via <strong>Retrofit</strong>, <strong>OkHttp</strong>, and <strong>WebSocket</strong>, with a strong focus on performance tuning, security (OAuth, JWT, ProGuard, R8), and crash monitoring using <strong>Crashlytics</strong> and <strong>Sentry</strong>.
-    </p>
-    <p>
-      Passionate about clean code and user-centric design, I enjoy mentoring teams, writing technical documentation, and contributing to efficient delivery through <strong>Agile practices</strong> and <strong>CI/CD pipelines</strong> (Bitrise, Fastlane, GitHub Actions).
-    </p>
-    <p>
-      I build fast, secure mobile applications across domains like health, e-commerce, and civic tech. Passionate about clean code and user-centric development.</p>
-  </div>
-</section>
+  <!-- PARTICLE CANVAS -->
+  <canvas id="bg-canvas"></canvas>
 
-    <section class="skills">
-      <h2><i class="fas fa-cogs"></i> Skills</h2>
-      <div class="skills-carousel">
-        <button class="carousel-arrow left-arrow">&#10094;</button>
-    
-        <div class="carousel-container">
-          <div class="carousel-track">
-            <div class="skill-card">
-              <i class="fas fa-laptop-code"></i>
-              <h3>Languages & Frameworks</h3>
-              <p>Java, Kotlin, Android SDK</p>
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">NP<span>.</span>dev</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certifications">Certs</a></li>
+    </ul>
+    <a href="mailto:nijithpaastin97@gmail.com" class="nav-cta">Hire Me</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="hero-eyebrow">Senior Android Developer</div>
+          <h1>Nijith<br /><span class="name-accent">Paastin K</span></h1>
+          <div class="hero-subtitle">
+            <span id="typed-text"></span><span id="typed-cursor"></span>
+          </div>
+          <p class="hero-desc">
+            5+ years building scalable Android applications — from fintech and healthcare to IPTV streaming and B2B platforms. Passionate about clean architecture, performance, and elegant Kotlin code.
+          </p>
+          <div class="hero-ctas">
+            <a href="#projects" class="btn-primary">View My Work</a>
+            <a href="mailto:nijithpaastin97@gmail.com" class="btn-outline">Get In Touch</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="stat-num">5<span style="color:var(--muted);font-size:1.4rem">+</span></div>
+              <div class="stat-label">Years Exp.</div>
             </div>
-            <div class="skill-card">
-              <i class="fas fa-project-diagram"></i>
-              <h3>Architecture Patterns</h3>
-              <p>MVVM, MVI, Clean Architecture</p>
+            <div>
+              <div class="stat-num">7<span style="color:var(--muted);font-size:1.4rem">+</span></div>
+              <div class="stat-label">Apps Built</div>
             </div>
-            <div class="skill-card">
-              <i class="fas fa-sitemap"></i>
-              <h3>Dependency Injection</h3>
-              <p>Dagger 2, Hilt, Koin</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-database"></i>
-              <h3>Database Management</h3>
-              <p>Room, SQLite, SharedPreferences, DataStore</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-network-wired"></i>
-              <h3>Networking</h3>
-              <p>Retrofit, OkHttp, WebSocket, GraphQL</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-shield-alt"></i>
-              <h3>Security & Auth</h3>
-              <p>OAuth, JWT, Firebase Auth, ProGuard, R8</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-bell"></i>
-              <h3>Push & Background</h3>
-              <p>FCM, OneSignal, WorkManager</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-paint-brush"></i>
-              <h3>UI/UX & Optimization</h3>
-              <p>Material Design, Jetpack Compose, ViewBinding</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-sync-alt"></i>
-              <h3>Multithreading</h3>
-              <p>Kotlin Coroutines, RxJava, Executors</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-bug"></i>
-              <h3>Testing & Debugging</h3>
-              <p>JUnit, Mockito, Espresso, Crashlytics, Sentry</p>
-            </div>
-            <div class="skill-card">
-              <i class="fab fa-git-alt"></i>
-              <h3>Version Control & CI/CD</h3>
-              <p>Git, GitHub, GitLab, Bitbucket, Jenkins, Bitrise</p>
+            <div>
+              <div class="stat-num">5</div>
+              <div class="stat-label">Companies</div>
             </div>
           </div>
         </div>
-    
-        <button class="carousel-arrow right-arrow">&#10095;</button>
+        <!-- CODE CARD -->
+        <div class="hero-right">
+          <div class="code-card">
+            <div class="code-card-header">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+              <div class="code-card-file">NijithViewModel.kt</div>
+            </div>
+            <div class="code-body">
+              <div><span class="cm">// Clean Architecture · MVVM</span></div>
+              <div><br/></div>
+              <div><span class="kw">@HiltViewModel</span></div>
+              <div><span class="kw">class</span> <span class="cls">NijithViewModel</span> <span class="kw">@Inject constructor</span>(</div>
+              <div class="indent-1"><span class="kw">private val</span> <span class="param">repo</span>: <span class="cls">AndroidDevRepository</span></div>
+              <div>) : <span class="cls">ViewModel</span>() {</div>
+              <div><br/></div>
+              <div class="indent-1"><span class="kw">private val</span> <span class="param">_state</span> = <span class="cls">MutableStateFlow</span>(</div>
+              <div class="indent-2"><span class="cls">DevState</span>(</div>
+              <div class="indent-3">experience = <span class="str">"5+ Years"</span>,</div>
+              <div class="indent-3">expertise = <span class="str">"Android · TV · KMP"</span>,</div>
+              <div class="indent-3">passion = <span class="str">"Clean Code"</span></div>
+              <div class="indent-2">)</div>
+              <div class="indent-1">)</div>
+              <div><br/></div>
+              <div class="indent-1"><span class="kw">fun</span> <span class="fn">hire</span>() = <span class="fn">viewModelScope</span>.launch {</div>
+              <div class="indent-2">repo.<span class="fn">connect</span>(<span class="str">"nijithpaastin97@gmail.com"</span>)</div>
+              <div class="indent-1">}</div>
+              <div>}</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>    
+    </div>
+  </section>
 
-    <section class="projects" id="projects">
-      <h2><i class="fas fa-briefcase"></i> Projects</h2>
-      <div class="cards">
-        <div class="card">📱 <strong>My Fitness Chart</strong><br> Track workouts & diet logs (Kotlin + MVVM)</div>
-        <div class="card">📘 <strong>Sandvik Catalogue</strong><br> B2B product browser (Retrofit + Room)</div>
-        <div class="card">💬 <strong>Tamalou</strong><br> Real-time multilingual chat app</div>
-        <div class="card">📚 <strong>QB365</strong><br> Student exam app (Offline + MVVM)</div>
-        <div class="card">💳 <strong>Finvesta</strong><br> Secure finance app (Java + Razorpay)</div>
-        <div class="card">🅿️ <strong>SmartParking – GCC</strong><br> Chennai Corp live slot parking app</div>
-        <div class="card">🚚 <strong>LiveOrder</strong><br> Reliance delivery tracking app</div>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <div class="section-label">About Me</div>
+          <h2 class="section-title">Crafting <em>Android</em> experiences that scale</h2>
+          <p>
+            I'm a <strong>Senior Android Developer</strong> based in Coimbatore, India — with over 5 years of experience building production-grade mobile applications across fintech, B2B SaaS, education, health, and media streaming domains.
+          </p>
+          <p>
+            My work spans full product lifecycles — from greenfield architecture decisions using <strong>MVVM + Clean Architecture</strong>, through performance profiling and crash reduction, to mentoring junior developers and leading code reviews.
+          </p>
+          <p>
+            I currently work deeply with <strong>Jetpack Compose, ExoPlayer/Media3, Kotlin Coroutines, Hilt, Koin, Room</strong>, and expand into <strong>Kotlin Multiplatform</strong> and <strong>Android TV</strong> development. I take security seriously — with hands-on experience in secure auth flows, API debugging, and code protection.
+          </p>
+          <div style="margin-top:1.5rem">
+            <span class="highlight-tag">Kotlin</span>
+            <span class="highlight-tag">Jetpack Compose</span>
+            <span class="highlight-tag">ExoPlayer / Media3</span>
+            <span class="highlight-tag">MVVM</span>
+            <span class="highlight-tag">Clean Architecture</span>
+            <span class="highlight-tag">Android TV</span>
+            <span class="highlight-tag">KMP</span>
+            <span class="highlight-tag">Hilt / Koin</span>
+          </div>
+        </div>
+        <div class="about-right">
+          <div class="about-card reveal-right" style="transition-delay:0.1s">
+            <div class="about-card-icon">📱</div>
+            <h4>Mobile & Android TV</h4>
+            <p>Building for both handheld and 10-foot TV experiences using Compose and D-pad navigation systems.</p>
+          </div>
+          <div class="about-card reveal-right" style="transition-delay:0.2s">
+            <div class="about-card-icon">🏗️</div>
+            <h4>Architecture & Clean Code</h4>
+            <p>Firm believer in MVVM + Clean Architecture, single-responsibility, and testable, maintainable codebases.</p>
+          </div>
+          <div class="about-card reveal-right" style="transition-delay:0.3s">
+            <div class="about-card-icon">🔐</div>
+            <h4>Security & Reverse Engineering</h4>
+            <p>Experienced with Frida, JADX, APKTool, AES-256 encryption, and secure API authentication.</p>
+          </div>
+          <div class="about-card reveal-right" style="transition-delay:0.4s">
+            <div class="about-card-icon">🎓</div>
+            <h4>Trainer & Mentor</h4>
+            <p>Certified trainer under Tamil Nadu's NAAN MUDHALVAN programme, mentoring the next generation of Android developers.</p>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="timeline">
-      <h2><i class="fas fa-user-tie"></i> Work Experience</h2>
-      <div class="work-experience-3d">
-    
-        <div class="work-card">
-          <h3>Cloudi5 Technologies</h3>
-          <p class="role">Android Developer <span class="location">| Coimbatore</span></p>
-          <p class="duration">(June 2023 – Present)</p>
-          <!-- <ul>
-            <li>Built & maintained feature-rich apps across industries.</li>
-            <li>Improved app load time by 40% with API/DB optimization.</li>
-            <li>Led a team, mentored juniors, reviewed code.</li>
-            <li>Implemented FCM & WorkManager for background tasks.</li>
-            <li>Collaborated with UI/UX & QA for smooth delivery.</li>
-          </ul> -->
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label">Technical Skills</div>
+      <h2 class="section-title">Tools I <em>build with</em></h2>
+      <div class="skills-grid">
+
+        <div class="skill-cat reveal" style="transition-delay:0.05s">
+          <div class="skill-cat-title">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag c">Kotlin</span>
+            <span class="skill-tag c">Java</span>
+          </div>
         </div>
-    
-        <div class="work-card">
-          <h3>Datasense Technologies</h3>
-          <p class="role">Android Developer <span class="location">| Coimbatore</span></p>
-          <p class="duration">(March 2023 – April 2024)</p>
-          <!-- <ul>
-            <li>Developed apps with MVVM, Retrofit, Coroutines.</li>
-            <li>Cut crash rates by 15% via memory optimizations.</li>
-            <li>Integrated OAuth & JWT security flows.</li>
-            <li>Followed Agile & sprint-based development.</li>
-          </ul> -->
+
+        <div class="skill-cat reveal" style="transition-delay:0.1s">
+          <div class="skill-cat-title">Android Development</div>
+          <div class="skill-tags">
+            <span class="skill-tag c">Jetpack Compose</span>
+            <span class="skill-tag c">Android SDK</span>
+            <span class="skill-tag c">XML / ViewBinding</span>
+            <span class="skill-tag c">Material Design</span>
+            <span class="skill-tag c">ExoPlayer / Media3</span>
+            <span class="skill-tag c">Android TV</span>
+          </div>
         </div>
-    
-        <div class="work-card">
-          <h3>Infinit Solutions</h3>
-          <p class="role">Android Developer <span class="location">| Coimbatore</span></p>
-          <p class="duration">(July 2022 – January 2023)</p>
-          <!-- <ul>
-            <li>Built real-time chat using WebSockets & Hilt.</li>
-            <li>Added real-time maps via Google Maps API.</li>
-            <li>Worked closely with French clients on updates.</li>
-          </ul> -->
+
+        <div class="skill-cat reveal" style="transition-delay:0.15s">
+          <div class="skill-cat-title">Architecture & Design</div>
+          <div class="skill-tags">
+            <span class="skill-tag g">MVVM</span>
+            <span class="skill-tag g">Clean Architecture</span>
+            <span class="skill-tag g">MVP</span>
+            <span class="skill-tag g">MVC</span>
+            <span class="skill-tag g">MVI</span>
+          </div>
         </div>
-    
-        <div class="work-card">
-          <h3>Comgen India Software Solutions</h3>
-          <p class="role">Android Developer <span class="location">| Coimbatore</span></p>
-          <p class="duration">(November 2021 – July 2022)</p>
-          <!-- <ul>
-            <li>Built cross-platform apps using Titanium SDK.</li>
-            <li>Optimized SQL DB with indexing and queries.</li>
-            <li>Worked with stakeholders for feature planning.</li>
-          </ul> -->
+
+        <div class="skill-cat reveal" style="transition-delay:0.2s">
+          <div class="skill-cat-title">Dependency Injection</div>
+          <div class="skill-tags">
+            <span class="skill-tag p">Hilt</span>
+            <span class="skill-tag p">Dagger 2</span>
+            <span class="skill-tag p">Koin</span>
+          </div>
         </div>
-    
-        <div class="work-card">
-          <h3>Gateway Software Solutions</h3>
-          <p class="role">Android Developer <span class="location">| Coimbatore</span></p>
-          <p class="duration">(October 2020 – November 2021)</p>
-          <!-- <ul>
-            <li>Improved UX and stability with profiling tools.</li>
-            <li>Maintained multiple Android apps across domains.</li>
-            <li>Assisted with user manuals and documentation.</li>
-          </ul> -->
+
+        <div class="skill-cat reveal" style="transition-delay:0.25s">
+          <div class="skill-cat-title">Concurrency & Background</div>
+          <div class="skill-tags">
+            <span class="skill-tag o">Kotlin Coroutines</span>
+            <span class="skill-tag o">RxJava</span>
+            <span class="skill-tag o">WorkManager</span>
+            <span class="skill-tag o">Executors</span>
+          </div>
         </div>
-    
+
+        <div class="skill-cat reveal" style="transition-delay:0.3s">
+          <div class="skill-cat-title">Data & Storage</div>
+          <div class="skill-tags">
+            <span class="skill-tag g">Room</span>
+            <span class="skill-tag g">SQLite</span>
+            <span class="skill-tag g">DataStore</span>
+            <span class="skill-tag g">Firebase Firestore</span>
+            <span class="skill-tag g">Realtime DB</span>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal" style="transition-delay:0.35s">
+          <div class="skill-cat-title">Networking & API</div>
+          <div class="skill-tags">
+            <span class="skill-tag c">Retrofit</span>
+            <span class="skill-tag c">OkHttp</span>
+            <span class="skill-tag c">Ktor</span>
+            <span class="skill-tag c">WebSocket</span>
+            <span class="skill-tag c">REST</span>
+            <span class="skill-tag c">OAuth / JWT</span>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal" style="transition-delay:0.4s">
+          <div class="skill-cat-title">Testing & Quality</div>
+          <div class="skill-tags">
+            <span class="skill-tag p">JUnit</span>
+            <span class="skill-tag p">Mockito</span>
+            <span class="skill-tag p">Turbine</span>
+            <span class="skill-tag p">LeakCanary</span>
+            <span class="skill-tag p">Detekt</span>
+            <span class="skill-tag p">Lint</span>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal" style="transition-delay:0.45s">
+          <div class="skill-cat-title">Security & Reverse Eng.</div>
+          <div class="skill-tags">
+            <span class="skill-tag o">Frida</span>
+            <span class="skill-tag o">JADX</span>
+            <span class="skill-tag o">APKTool</span>
+            <span class="skill-tag o">Ghidra</span>
+            <span class="skill-tag o">Burp Suite</span>
+            <span class="skill-tag o">Charles Proxy</span>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal" style="transition-delay:0.5s">
+          <div class="skill-cat-title">DevOps & Tooling</div>
+          <div class="skill-tags">
+            <span class="skill-tag g">GitHub Actions</span>
+            <span class="skill-tag g">Jenkins</span>
+            <span class="skill-tag g">Fastlane</span>
+            <span class="skill-tag g">Bitrise</span>
+            <span class="skill-tag g">Git</span>
+            <span class="skill-tag g">Kubernetes</span>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal" style="transition-delay:0.55s">
+          <div class="skill-cat-title">Cross-Platform</div>
+          <div class="skill-tags">
+            <span class="skill-tag c">Compose Multiplatform</span>
+            <span class="skill-tag c">Kotlin Multiplatform</span>
+            <span class="skill-tag c">Flutter</span>
+          </div>
+        </div>
+
+        <div class="skill-cat reveal" style="transition-delay:0.6s">
+          <div class="skill-cat-title">Crash & Monitoring</div>
+          <div class="skill-tags">
+            <span class="skill-tag p">Sentry</span>
+            <span class="skill-tag p">Bugsnag</span>
+            <span class="skill-tag p">Firebase Crashlytics</span>
+          </div>
+        </div>
+
       </div>
-    </section>     
+    </div>
+  </section>
 
-    <section class="contact">
-      <h2><i class="fas fa-envelope"></i> Contact</h2>
-      <div class="contact-3d-container">
-    
-        <div class="contact-card-3d">
-          <div class="front">
-            <i class="fas fa-envelope"></i>
-            <h4>Email</h4>
-          </div>
-          <div class="back">
-            <a href="mailto:nijithpaastin97@gmail.com">nijithpaastin97@gmail.com</a>
-          </div>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-label">Work History</div>
+      <h2 class="section-title">Where I've <em>made impact</em></h2>
+      <div class="timeline">
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-meta"><span>Jun 2024 – Nov 2025</span> · Coimbatore, India</div>
+          <div class="timeline-role">Android Developer</div>
+          <div class="timeline-company">Cloudi5 Technologies</div>
+          <ul class="timeline-points">
+            <li>Engineered scalable Android applications across multiple business domains, improving user engagement and retention.</li>
+            <li>Improved application performance by ~40% through database query optimization and efficient API handling.</li>
+            <li>Led code reviews and mentored junior developers to maintain clean architecture and coding standards.</li>
+            <li>Implemented Firebase Cloud Messaging and WorkManager for reliable background processing.</li>
+          </ul>
         </div>
-    
-        <div class="contact-card-3d">
-          <div class="front">
-            <i class="fas fa-phone"></i>
-            <h4>Phone</h4>
-          </div>
-          <div class="back">
-            <a href="tel:+916369434160">+91 63694 34160</a>
-          </div>
+
+        <div class="timeline-item reveal" style="transition-delay:0.1s">
+          <div class="timeline-dot" style="border-color:var(--green)"></div>
+          <div class="timeline-meta"><span>Mar 2023 – Apr 2024</span> · Coimbatore, India</div>
+          <div class="timeline-role">Android Developer</div>
+          <div class="timeline-company">Datasense Technologies</div>
+          <ul class="timeline-points">
+            <li>Developed maintainable Android applications using Kotlin, MVVM, Retrofit, and Coroutines.</li>
+            <li>Reduced production crash rates by ~15% through memory optimization and profiling.</li>
+            <li>Implemented secure authentication flows using OAuth and JWT.</li>
+            <li>Collaborated with cross-functional teams in Agile and Scrum environments.</li>
+          </ul>
         </div>
-    
-        <div class="contact-card-3d">
-          <div class="front">
-            <i class="fab fa-whatsapp"></i>
-            <h4>WhatsApp</h4>
-          </div>
-          <div class="back">
-            <a href="https://wa.me/916369434160" target="_blank">Chat Now</a>
-          </div>
+
+        <div class="timeline-item reveal" style="transition-delay:0.2s">
+          <div class="timeline-dot" style="border-color:var(--purple)"></div>
+          <div class="timeline-meta"><span>Jul 2022 – Jan 2023</span> · Coimbatore, India</div>
+          <div class="timeline-role">Junior Android Developer</div>
+          <div class="timeline-company">Infinit Solutions</div>
+          <ul class="timeline-points">
+            <li>Built real-time multilingual chat applications using Kotlin, Hilt, and WebSocket.</li>
+            <li>Integrated Google Maps API for location-based services.</li>
+            <li>Improved application stability and performance for international users.</li>
+          </ul>
         </div>
-    
-        <div class="contact-card-3d">
-          <div class="front">
-            <i class="fab fa-linkedin"></i>
-            <h4>LinkedIn</h4>
-          </div>
-          <div class="back">
-            <a href="https://www.linkedin.com/in/nijith-paastin-k-633721241/" target="_blank">View Profile</a>
-          </div>
+
+        <div class="timeline-item reveal" style="transition-delay:0.3s">
+          <div class="timeline-dot" style="border-color:#FF9E64"></div>
+          <div class="timeline-meta"><span>Nov 2021 – Jul 2022</span> · Coimbatore, India</div>
+          <div class="timeline-role">Junior Technical Consultant</div>
+          <div class="timeline-company">Comgen India Software Solutions Pvt. Ltd.</div>
+          <ul class="timeline-points">
+            <li>Developed cross-platform mobile applications using Titanium SDK.</li>
+            <li>Optimized backend queries to improve application performance.</li>
+            <li>Assisted with testing, debugging, and release management.</li>
+          </ul>
         </div>
-    
-        <div class="contact-card-3d">
-          <div class="front">
-            <i class="fab fa-facebook"></i>
-            <h4>Facebook</h4>
-          </div>
-          <div class="back">
-            <a href="https://www.facebook.com/theri.nijith" target="_blank">Visit</a>
-          </div>
+
+        <div class="timeline-item reveal" style="transition-delay:0.4s">
+          <div class="timeline-dot" style="border-color:var(--pink)"></div>
+          <div class="timeline-meta"><span>Oct 2020 – Nov 2021</span> · Coimbatore, India</div>
+          <div class="timeline-role">Android Developer</div>
+          <div class="timeline-company">Gateway Software Solutions</div>
+          <ul class="timeline-points">
+            <li>Maintained and optimized legacy Android applications to reduce crash rates.</li>
+            <li>Conducted performance profiling and documented features for knowledge transfer.</li>
+            <li>Delivered bug fixes and feature enhancements in coordination with team members.</li>
+          </ul>
         </div>
-    
-        <div class="contact-card-3d">
-          <div class="front">
-            <i class="fab fa-instagram"></i>
-            <h4>Instagram</h4>
-          </div>
-          <div class="back">
-            <a href="https://www.instagram.com/nijith_paastin_k/" target="_blank">Follow Me</a>
-          </div>
-        </div>
-    
-        <div class="contact-card-3d">
-          <div class="front">
-            <i class="fab fa-x-twitter"></i>
-            <h4>X / Twitter</h4>
-          </div>
-          <div class="back">
-            <a href="https://x.com/PaastinK" target="_blank">Tweet Me</a>
-          </div>
-        </div>
-    
+
       </div>
-    
-      <a class="btn" href="Nigith_Pastine_K_Updated_Resume.docx" download>📄 Download Resume</a>
-    </section>            
-  </div>
+    </div>
+  </section>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="script.js"></script>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-label">Selected Work</div>
+      <h2 class="section-title">Projects I've <em>shipped</em></h2>
+      <div class="projects-grid">
+
+        <div class="project-card reveal" style="transition-delay:0.05s">
+          <div class="badge-live">Play Store</div>
+          <div class="project-num">01</div>
+          <div class="project-name">Tamalou — Real-Time Group Chat</div>
+          <div class="project-desc">Multilingual chat app built for a French client, featuring WebSocket real-time messaging, SQLite persistence, and full Android localization support.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Java</span>
+            <span class="stack-tag">MVC</span>
+            <span class="stack-tag">WebSocket</span>
+            <span class="stack-tag">SQLite</span>
+          </div>
+          <div class="project-links">
+            <a href="https://play.google.com/store/apps/details?id=com.infiso.tamalou&hl=en-IN" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Play Store
+            </a>
+            <a href="https://github.com/nijith-paastin-k/Tamalou" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay:0.1s">
+          <div class="badge-live">Play Store</div>
+          <div class="project-num">02</div>
+          <div class="project-name">LiveOrder — B2B Order Management</div>
+          <div class="project-desc">Role-based B2B order management platform with invoicing, offline sync, real-time updates, and a clean ViewBinding-powered UI for field sales teams.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Kotlin</span>
+            <span class="stack-tag">MVVM</span>
+            <span class="stack-tag">Retrofit</span>
+            <span class="stack-tag">ViewBinding</span>
+          </div>
+          <div class="project-links">
+            <a href="https://play.google.com/store/apps/details?id=com.liveorder&hl=en-IN" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Play Store
+            </a>
+            <a href="https://github.com/nijith-paastin-k/Live-Order" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay:0.15s">
+          <div class="badge-live">Play Store</div>
+          <div class="project-num">03</div>
+          <div class="project-name">Finvesta — Financial Services App</div>
+          <div class="project-desc">Fintech super-app for agents featuring e-wallets, AEPS, bill payments, and insurance flows built on secure APIs with session and token management.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Java</span>
+            <span class="stack-tag">MVC</span>
+            <span class="stack-tag">Secure APIs</span>
+            <span class="stack-tag">OAuth</span>
+          </div>
+          <div class="project-links">
+            <a href="https://play.google.com/store/search?q=finvesta&c=apps&hl=en-IN" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Play Store
+            </a>
+            <a href="https://github.com/nijith-paastin-k/FinvestaNew" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay:0.2s">
+          <div class="project-num">04</div>
+          <div class="project-name">Sandvik — Interactive B2B Product Catalogue</div>
+          <div class="project-desc">Digital product catalogue with advanced search, hierarchical filters, and full offline access built for Sandvik's B2B sales force using Room caching.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Kotlin</span>
+            <span class="stack-tag">MVVM</span>
+            <span class="stack-tag">Room</span>
+            <span class="stack-tag">Retrofit</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nijith-paastin-k/Sandvik" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay:0.25s">
+          <div class="project-num">05</div>
+          <div class="project-name">QB365 — Educational Platform</div>
+          <div class="project-desc">EdTech app for mock exams with detailed result tracking, offline content delivery, and efficient DataBinding-powered UI optimized for exam day use.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Kotlin</span>
+            <span class="stack-tag">MVVM</span>
+            <span class="stack-tag">DataBinding</span>
+            <span class="stack-tag">Offline-First</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nijith-paastin-k/QB--365" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay:0.3s">
+          <div class="project-num">06</div>
+          <div class="project-name">FIA Sales Audit — Banking Audit App</div>
+          <div class="project-desc">Real-time banking sales audit application with local-first Room storage, sync support for field auditors, and offline-capable architecture for Indian Bank.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Java</span>
+            <span class="stack-tag">MVC</span>
+            <span class="stack-tag">Room</span>
+            <span class="stack-tag">Offline Sync</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nijith-paastin-k/Indian-Bank-Sales-Audit" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay:0.35s">
+          <div class="project-num">07</div>
+          <div class="project-name">My Fitness Chart — Health & Wellness Tracker</div>
+          <div class="project-desc">Personal fitness tracking app with goal setting, progress visualization charts, activity logging, and Room-persisted health data history.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Kotlin</span>
+            <span class="stack-tag">MVVM</span>
+            <span class="stack-tag">Room</span>
+            <span class="stack-tag">Coroutines</span>
+            <span class="stack-tag">Retrofit</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nijith-paastin-k" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay:0.4s">
+          <div class="project-num">08</div>
+          <div class="project-name">GCC SmartParking — Real-Time Parking Solution</div>
+          <div class="project-desc">Live parking slot availability system for GCC with Google Maps integration, real-time data feeds, and coroutine-driven polling architecture.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Kotlin</span>
+            <span class="stack-tag">MVVM</span>
+            <span class="stack-tag">Maps API</span>
+            <span class="stack-tag">Coroutines</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nijith-paastin-k" target="_blank" class="proj-link">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="container">
+      <div class="section-label">Credentials</div>
+      <h2 class="section-title">Certifications & <em>Recognition</em></h2>
+
+      <div class="cert-grid">
+        <div class="cert-card reveal" style="transition-delay:0.05s">
+          <div class="cert-icon">📱</div>
+          <div class="cert-info">
+            <h4>Android Mobile Application Development</h4>
+            <p>Angler Academy, Coimbatore, India</p>
+          </div>
+        </div>
+        <div class="cert-card reveal" style="transition-delay:0.1s">
+          <div class="cert-icon">☕</div>
+          <div class="cert-info">
+            <h4>Core Java — Value Added Course</h4>
+            <p>Accent Techno Soft · In association with Tamilnadu College of Engineering</p>
+          </div>
+        </div>
+        <div class="cert-card reveal" style="transition-delay:0.15s">
+          <div class="cert-icon">🖥️</div>
+          <div class="cert-info">
+            <h4>Diploma in Computer Applications (DCA)</h4>
+            <p>TCSD Computer Education, Tirupur, India</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="recognition-banner reveal" style="margin-top:2.5rem">
+        <div class="recog-badge">🏆</div>
+        <div class="recog-text">
+          <h3>Certified Trainer — Mobile Application Development</h3>
+          <p>
+            Recognized as a <strong>Subject Matter Expert</strong> under the <strong>Tamil Nadu Skill Development Corporation – NAAN MUDHALVAN Programme</strong>. Delivered instructor-led training and mentoring in Android and mobile application development as part of a state government-recognised skill development initiative.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-wrap">
+        <div class="section-label">Get In Touch</div>
+        <h2 class="section-title">Let's build something <em>great</em></h2>
+        <p class="contact-desc">
+          Open to full-time roles, contract projects, and collaborations. Whether you're a startup or an enterprise team — if you need a senior Android developer who cares about clean code and real impact, let's talk.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:nijithpaastin97@gmail.com" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+            nijithpaastin97@gmail.com
+          </a>
+          <a href="https://linkedin.com/in/nijith-paastin-k-633721241" target="_blank" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/nijith-paastin-k" target="_blank" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="tel:+916369434160" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.82a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
+            +91 63694 34160
+          </a>
+        </div>
+        <a href="mailto:nijithpaastin97@gmail.com" class="btn-primary" style="display:inline-block;margin:0 auto;">Send Me A Message</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>Designed & built with ❤️ · <span>Nijith Paastin K</span> · Senior Android Developer · Coimbatore, India</p>
+    </div>
+  </footer>
+
+  <script>
+    // ── CURSOR ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animCursor() {
+      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '20px'; cursor.style.height = '20px';
+        cursor.style.background = 'var(--green)';
+        ring.style.width = '56px'; ring.style.height = '56px';
+        ring.style.borderColor = 'var(--green)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '12px'; cursor.style.height = '12px';
+        cursor.style.background = 'var(--cyan)';
+        ring.style.width = '36px'; ring.style.height = '36px';
+        ring.style.borderColor = 'var(--cyan)';
+      });
+    });
+
+    // ── PARTICLE CANVAS ──
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * W; this.y = Math.random() * H;
+        this.r = Math.random() * 1.5 + 0.3;
+        this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3;
+        this.a = Math.random() * 0.5 + 0.1;
+        const palette = ['#00E5FF','#69FF47','#BF5FFF'];
+        this.color = palette[Math.floor(Math.random() * palette.length)];
+      }
+      update() {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+      }
+      draw() {
+        ctx.globalAlpha = this.a;
+        ctx.fillStyle = this.color;
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    for (let i = 0; i < 140; i++) particles.push(new Particle());
+    function drawLines() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 100) {
+            ctx.globalAlpha = (1 - dist/100) * 0.08;
+            ctx.strokeStyle = '#00E5FF';
+            ctx.lineWidth = 0.5;
+            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+          }
+        }
+      }
+    }
+    function animParticles() {
+      ctx.clearRect(0, 0, W, H);
+      drawLines();
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animParticles);
+    }
+    animParticles();
+
+    // ── TYPED EFFECT ──
+    const phrases = [
+      'Kotlin · Jetpack Compose',
+      'MVVM · Clean Architecture',
+      'Android TV · ExoPlayer',
+      'Kotlin Multiplatform',
+      'Hilt · Room · Coroutines',
+    ];
+    let pi = 0, ci = 0, deleting = false, wait = 0;
+    const typedEl = document.getElementById('typed-text');
+    function type() {
+      const phrase = phrases[pi];
+      if (!deleting) {
+        typedEl.textContent = phrase.slice(0, ci + 1); ci++;
+        if (ci === phrase.length) { deleting = true; wait = 60; }
+      } else {
+        if (wait-- > 0) { setTimeout(type, 30); return; }
+        typedEl.textContent = phrase.slice(0, ci - 1); ci--;
+        if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; wait = 0; }
+      }
+      setTimeout(type, deleting ? 35 : 75);
+    }
+    setTimeout(type, 800);
+
+    // ── NAV SCROLL ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── INTERSECTION OBSERVER ──
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.section-label, .section-title, .reveal, .reveal-left, .reveal-right').forEach(el => io.observe(el));
+
+    // ── STAGGER delays for grids ──
+    document.querySelectorAll('.projects-grid .project-card, .skills-grid .skill-cat, .cert-grid .cert-card').forEach((el, i) => {
+      if (!el.style.transitionDelay) el.style.transitionDelay = (i * 0.06) + 's';
+    });
+  </script>
 </body>
 </html>
