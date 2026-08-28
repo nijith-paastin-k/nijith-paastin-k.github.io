@@ -577,15 +577,17 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:1.8rem 2
 
 /* ═══ PROFILE PHOTO V2 ═══ */
 .about-photo-card-v2{position:relative;width:260px;flex-shrink:0}
-.photo-ring-outer{width:260px;height:260px;border-radius:50%;
-  background:conic-gradient(var(--red) 0deg 90deg,var(--yellow) 90deg 180deg,var(--green) 180deg 270deg,var(--blue) 270deg 360deg);
-  padding:4px;animation:spinRingPhoto 8s linear infinite;
-  box-shadow:0 0 30px rgba(66,133,244,.25),0 0 60px rgba(52,168,83,.15)}
-@keyframes spinRingPhoto{to{transform:rotate(360deg)}}
-.photo-ring-inner{width:100%;height:100%;border-radius:50%;overflow:hidden;
-  border:3px solid var(--bg);background:var(--bg)}
+.photo-ring-outer{width:260px;height:330px;border-radius:18px;
+  background:var(--surface);padding:0;animation:none;
+  box-shadow:0 25px 70px var(--shadow),0 0 0 1px var(--glass-border);
+  border:1px solid var(--border);
+  transition:transform .35s ease,box-shadow .35s ease}
+.photo-ring-outer:hover{transform:translateY(-6px) rotateY(-4deg) rotateX(2deg);
+  box-shadow:0 35px 90px var(--shadow),10px 10px 0 rgba(66,133,244,.08)}
+.photo-ring-inner{width:100%;height:100%;border-radius:17px;overflow:hidden;
+  border:none;background:var(--bg)}
 .profile-photo-v2{width:100%;height:100%;object-fit:cover;object-position:center top;
-  border-radius:50%;display:block;filter:contrast(1.05) brightness(1.02)}
+  border-radius:0;display:block;filter:contrast(1.05) brightness(1.02)}
 .photo-accent-bar{display:flex;gap:3px;margin-top:10px}
 .photo-accent-bar span{flex:1;height:3px;border-radius:2px}
 .photo-name-tag-v2{background:var(--surface);border:1px solid var(--border);
@@ -718,6 +720,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:1.8rem 2
 
 
 .doc-pages-group{display:none;flex-direction:column;gap:1.2rem;width:100%}
+
+
+/* Profile photo responsive sizing */
+@media(max-width:600px){
+  .about-photo-card-v2{width:220px}
+  .photo-ring-outer{width:220px;height:280px}
+}
 
 </style>
 </head>
